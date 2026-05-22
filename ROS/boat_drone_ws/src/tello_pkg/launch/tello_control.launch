@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="tello_control" pkg="tello_pkg" type="tello_control.py" output="screen" />
+</launch>

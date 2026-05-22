@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="tello_control" pkg="tello_pkg" type="gazebo_tello_control.py" output="screen" />
+    <node name="aux_takeoff_land" pkg="tello_pkg" type="gazebo_takeoff_land.py" output="screen" />
+</launch>

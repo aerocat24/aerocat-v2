@@ -1,0 +1,18 @@
+<launch>
+
+    <!-- 1) tello_node.launch -->
+    <include file="$(find tello_pkg)/launch/tello_node.launch" />
+
+    <!-- 2) remote_control_joy.launch -->
+    <include file="$(find tello_pkg)/launch/remote_control_joy.launch" />
+
+    <!-- 3) continuous_detection.launch (apriltag_ros) -->
+    <include file="$(find apriltag_ros)/launch/continuous_detection.launch" />
+
+    <!-- 4) rqt_image_view -->
+    <node pkg="rqt_image_view" type="rqt_image_view" name="rqt_image_view" output="screen" />
+
+    <!-- 7) marker_tracking_node.py -->
+    <node pkg="tello_pkg" type="marker_tracking_node.py" name="marker_tracking_node" output="screen" />
+
+</launch>

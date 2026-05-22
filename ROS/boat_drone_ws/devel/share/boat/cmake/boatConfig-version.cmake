@@ -1,0 +1,1 @@
+/home/joaom/github_projects/cooperation_boat_drone/boat_drone_ws/devel/.private/boat/share/boat/cmake/boatConfig-version.cmake

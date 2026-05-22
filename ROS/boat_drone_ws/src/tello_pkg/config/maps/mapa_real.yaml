@@ -1,0 +1,9 @@
+image: mapa_real.pgm
+resolution: 0.100000
+origin: [0, 0, 0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+
+
+#rosrun tf2_ros static_transform_publisher 40.000001 39.500001 0 0 0 0 map world

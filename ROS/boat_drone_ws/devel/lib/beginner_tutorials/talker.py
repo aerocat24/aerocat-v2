@@ -1,0 +1,1 @@
+/home/joaom/github_projects/cooperation_boat_drone/boat_drone_ws/devel/.private/beginner_tutorials/lib/beginner_tutorials/talker.py

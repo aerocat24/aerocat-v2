@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/joaom/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/joaom/github_projects/cooperation_boat_drone/boat_drone_ws/devel/include/**",
+        "/home/joaom/github_projects/cooperation_boat_drone/boat_drone_ws/src/beginner_tutorials/include/**",
+        "/home/joaom/github_projects/cooperation_boat_drone/boat_drone_ws/src/py_rover/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

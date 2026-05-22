@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Importação das bibliotecas necessárias -->
+  <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+
+  <style>
+    /* Estilos gerais da página */
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    h1,
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .control-panel,
+    .navigation-buttons {
+      display: flex;
+      justify-content: center;
+    }
+
+    .control-panel button,
+    .navigation-buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      margin: 5px;
+    }
+
+    .control-panel button:hover {
+      background-color: #eee;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .column {
+      padding: 20px;
+    }
+
+
+  </style>
+
+  <script type="text/javascript">
+    // Conexão com o servidor ROS via WebSocket
+    var ros = new ROSLIB.Ros({
+      url: 'ws://localhost:9090'
+    });
+
+    // Evento disparado quando a conexão é estabelecida com sucesso
+    ros.on('connection', function () {
+      console.log('Connected to websocket server.');
+    });
+
+    // Evento disparado em caso de erro na conexão
+    ros.on('error', function (error) {
+      console.log('Error connecting to websocket server: ', error);
+    });
+
+    // Evento disparado quando a conexão é fechada
+    ros.on('close', function () {
+      console.log('Connection to websocket server closed.');
+    });
+
+    // Publicador de mensagem para o tópico '/takeoff'
+    var takeoffPub = new ROSLIB.Topic({
+      ros: ros,
+      name: '/tello/takeoff',
+      messageType: 'std_msgs/Empty'
+    });
+
+    // Função para publicar uma mensagem de decolagem
+    function sendTakeoff() {
+      var emptyMessage = new ROSLIB.Message({});
+      takeoffPub.publish(emptyMessage);
+      console.log("Takeoff message published");
+    }
+
+    // Publicador de mensagem para o tópico '/land'
+    var landPub = new ROSLIB.Topic({
+      ros: ros,
+      name: '/tello/land',
+      messageType: 'std_msgs/Empty'
+    });
+
+    // Função para publicar uma mensagem de pouso
+    function sendLand() {
+      var emptyMessage = new ROSLIB.Message({});
+      landPub.publish(emptyMessage);
+      console.log("Land message published");
+    }
+
+    // Publicador de mensagem para o tópico '/move_base/goal'
+    var moveBaseGoal = new ROSLIB.Topic({
+      ros: ros,
+      name: '/move_base/goal',
+      messageType: 'move_base_msgs/MoveBaseActionGoal'
+    });
+
+    // Função para enviar um objetivo de navegação
+    function sendMoveBaseGoal(x, y, w) {
+      var goalMessage = new ROSLIB.Message({
+        header: {
+          seq: 0,
+          stamp: {
+            secs: Math.floor(Date.now() / 1000),
+            nsecs: 0
+          },
+          frame_id: "world"
+        },
+        goal_id: {
+          stamp: {
+            secs: Math.floor(Date.now() / 1000),
+            nsecs: 0
+          },
+          id: "goal_" + Math.random().toString(36).substr(2, 9) // ID único para o objetivo
+        },
+        goal: {
+          target_pose: {
+            header: {
+              frame_id: "world"
+            },
+            pose: {
+              position: {
+                x: x,
+                y: y,
+                z: 0.0
+              },
+              orientation: {
+                x: 0.0,
+                y: 0.0,
+                z: 0.0,
+                w: w
+              }
+            }
+          }
+        }
+      });
+
+      moveBaseGoal.publish(goalMessage);
+      console.log("MoveBase goal message published with x=" + x + ", y=" + y);
+    }
+
+    // Assinante para o tópico '/new_Odom'
+    var newOdomListener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/tello/new_odom',
+      messageType: 'nav_msgs/Odometry'
+    });
+
+    // Atualiza o elemento HTML com os valores de odometria recebidos
+    newOdomListener.subscribe(function (message) {
+      document.getElementById('odom-values').innerHTML =
+        'X = ' + message.pose.pose.position.x.toFixed(4) + '<br>' +
+        'Y = ' + message.pose.pose.position.y.toFixed(4) + '<br>' +
+        'Z = ' + message.pose.pose.position.z.toFixed(4);
+    });
+
+    // Listener para o tópico '/image_raw'
+    var imageListener = new ROSLIB.Topic({
+      ros: ros,
+      name: '/tello/camera/image_raw/compressed',
+      messageType: 'sensor_msgs/CompressedImage'
+    });
+
+    // Atualiza a imagem exibida com os dados recebidos
+    imageListener.subscribe(function (message) {
+      var imgData = 'data:image/jpeg;base64,' + message.data;
+      document.getElementById('image-view').src = imgData;
+    });
+
+  </script>
+</head>
+
+<body>
+
+  <h1>Tello - Rosbridge</h1>
+  <p>Envie sinais de controle para o Tello pressionando os botões!</p>
+  <div class="container">
+    <div class="column">
+      <h2>Funções básicas:</h2>
+      <div class="control-panel">
+        <!-- Botões para decolagem e pouso -->
+        <button onclick="sendTakeoff()">Decolar</button>
+        <button onclick="sendLand()">Pousar</button>
+      </div>
+      <br>
+      <h2>Navegação autônoma</h2>
+
+      <div class="navigation-map">
+        <img src="/home/marcus/catkin_ws/src/tcc_marcus_albano/tello_pkg/config/rosbridge/rosbridge_map.png" alt="map" width="480" height="360">
+      </div>
+
+      <div class="navigation-buttons">
+        <!-- Botões para enviar objetivos de navegação -->
+        <button onclick="sendMoveBaseGoal(0.0, 0.0, 1.0)">Início</button>
+        <button onclick="sendMoveBaseGoal(7.031, 1.948, 1.0)">Posição 1</button>
+        <button onclick="sendMoveBaseGoal(19.261, -0.498, 1.0)">Posição 2</button>
+        <button onclick="sendMoveBaseGoal(13.481, -0.697, 1.0)">Posição 3</button>
+      </div>
+    </div>
+
+    <div class="column">
+      <h2>Posição:</h2>
+      <!-- Exibe valores de odometria -->
+      <p id="odom-values">Aguardando dados...</p>
+
+      <h2>Câmera:</h2>
+      <!-- Exibe imagem recebida do tópico '/tello/camera/' -->
+      <img id="image-view" alt="Imagem de /tello/camera/image_raw/compressed não disponível" width="480" height="360">
+    </div>
+  </div>
+</body>
+
+</html>

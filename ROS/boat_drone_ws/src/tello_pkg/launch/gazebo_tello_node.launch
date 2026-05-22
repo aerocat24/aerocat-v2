@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<!-- Inicializa o Gazebo -->
+<launch>
+  <remap from="/cmd_vel" to="/tello/cmd_vel" />
+  <remap from="/front_cam/camera/image" to="/tello/camera/image_raw" />
+  <remap from="/ground_truth/state" to= "/tello/new_odom"/>
+  
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="world" default="$(find tello_pkg)/config/gazebo_worlds/teste_2.world" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <include file="$(find hector_quadrotor_gazebo)/launch/spawn_quadrotor.launch">
+    <arg name="model" value="$(find tello_pkg)/description/urdf/tello_with_cam.gazebo.xacro"/> 
+  </include>
+
+  <!-- Visualization -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find tello_pkg)/config/rviz/config_rviz.rviz" output="screen" />
+
+    <!-- Trajectory path -->
+    <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server" output="screen" ns="tello" >
+        <param name="/target_frame_name"        value="world" />
+        <param name="/source_frame_name"        value="base_link" />
+        <param name="/trajectory_update_rate"   value="30.0" />
+        <param name="/trajectory_publish_rate"  value="30.0" />
+    </node>
+
+</launch>

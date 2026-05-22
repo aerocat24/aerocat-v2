@@ -1,0 +1,27 @@
+<launch>
+
+    <!-- 1) tello_node.launch -->
+    <include file="$(find tello_pkg)/launch/tello_node.launch" />
+
+    <!-- 2) remote_control_joy.launch -->
+    <include file="$(find tello_pkg)/launch/remote_control_joy.launch" />
+
+    <!-- 3) continuous_detection.launch (apriltag_ros) -->
+    <include file="$(find apriltag_ros)/launch/continuous_detection.launch" />
+
+    <!-- 4) tello_new_odom.py -->
+    <node pkg="tello_pkg" type="tello_new_odom.py" name="tello_new_odom" output="screen" />
+
+    <!-- 5) rqt_image_view -->
+    <node pkg="rqt_image_view" type="rqt_image_view" name="rqt_image_view" output="screen" />
+
+    <!-- 6) scan_node.py -->
+    <node pkg="tello_pkg" type="scan_node.py" name="scan_node" output="screen" />
+
+    <!-- 7) marker_identification_node.py -->
+    <node pkg="tello_pkg" type="marker_identification_node.py" name="marker_identification_node" output="screen" />
+
+    <!-- 8) precision_landing_node.py -->
+    <node pkg="tello_pkg" type="precision_landing_node.py" name="precision_landing_node" output="screen" />
+
+</launch>

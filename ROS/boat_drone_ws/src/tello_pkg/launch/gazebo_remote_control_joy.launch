@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="dev_name" default="*"/>
+
+    <!-- rosrun joy joy_node _dev_name:="*" -->
+    <node pkg="joy" type="joy_node" name="joy" output="screen">
+        <param name="dev_name" value="$(arg dev_name)" />
+    </node>
+
+    <!-- rosrun boat remote_control_joy.py  -->
+    <node pkg="tello_pkg" type="gazebo_remote_control_joy_node.py" name="gazebo_remote_control_joy_node" output="screen"/>
+            
+
+    <node name="aux_takeoff_land" pkg="tello_pkg" type="gazebo_takeoff_land.py" output="screen" />
+
+</launch>

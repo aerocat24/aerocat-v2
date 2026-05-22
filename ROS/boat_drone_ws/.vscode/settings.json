@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/joaom/github_projects/cooperation_boat_drone/boat_drone_ws/devel/lib/python3/dist-packages",
+        "/home/joaom/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/joaom/github_projects/cooperation_boat_drone/boat_drone_ws/devel/lib/python3/dist-packages",
+        "/home/joaom/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ]
+}

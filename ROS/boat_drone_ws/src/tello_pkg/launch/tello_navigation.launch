@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="map_server" pkg="map_server" type="map_server" output="screen" args="$(find tello_pkg)/config/maps/merged_real_map.yaml">
+  	</node>
+
+  <!-- Static Transform Publisher from map to world -->
+  	<node pkg="tf2_ros" type="static_transform_publisher" name="map_to_world_broadcaster" args="40.000001 39.500001 0 0 0 0 map world"/>
+	
+    <node name="move_base_cmd_vel" pkg="tello_pkg" type="move_base_correct.py" output="screen" /> 
+        <!-- Start move_base (global and local cost maps and path planners) -->
+    <node pkg="move_base" type="move_base" name="move_base" clear_params="true" output="screen">
+        
+        <remap from = "/odom" to = "/tello/new_odom"/>
+        <remap from = "/cmd_vel" to = "/cmd_vel_move_base"/>
+        <!-- Top-level parameters -->
+        <rosparam command="load" file="$(find tello_pkg)/config/move_base/move_base.yaml" />
+
+        <!-- Costmaps parameters -->
+        <rosparam ns="global_costmap" command="load" file="$(find tello_pkg)/config/move_base/costmap_common.yaml" />
+        <rosparam command="load" file="$(find tello_pkg)/config/move_base/costmap_global.yaml" />
+        <rosparam ns="local_costmap" command="load" file="$(find tello_pkg)/config/move_base/costmap_common.yaml" />
+        <rosparam command="load" file="$(find tello_pkg)/config/move_base/costmap_local.yaml" />
+
+        <!-- Planners parameters -->
+        <rosparam command="load" file="$(find tello_pkg)/config/move_base/planner_global.yaml" />
+        <rosparam command="load" file="$(find tello_pkg)/config/move_base/planner_local.yaml" />
+        
+    </node>
+</launch>

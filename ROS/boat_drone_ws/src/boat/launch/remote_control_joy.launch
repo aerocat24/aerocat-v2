@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Controle do barco - js1 -->
+    <node pkg="joy" type="joy_node" name="joy_boat_node" output="screen">
+        <param name="dev" value="/dev/input/js0"/>
+        <remap from="joy" to="/boat/joy"/>
+    </node>
+
+    <node pkg="boat" type="remote_control_joy_node.py" name="remote_control_boat" output="screen">
+        <remap from="joy" to="/boat/joy"/>
+    </node>
+
+
+</launch>

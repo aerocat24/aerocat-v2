@@ -1,0 +1,35 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/marcus/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/marcus/catkin_ws/src/geographic_info/geodesy/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_gazebo/hector_gazebo_plugins/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_gazebo/hector_gazebo_thermal_camera/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_localization/hector_pose_estimation/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_localization/hector_pose_estimation_core/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_quadrotor/hector_quadrotor_controller/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_quadrotor/hector_quadrotor_controller_gazebo/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_quadrotor/hector_quadrotor_gazebo_plugins/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_quadrotor/hector_quadrotor_model/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_quadrotor/hector_quadrotor_pose_estimation/include/**",
+        "/home/marcus/catkin_ws/src/hector_quadrotor_noetic/hector_quadrotor/hector_uav_msgs/include/**",
+        "/home/marcus/catkin_ws/src/orb_slam3_ros/include/**",
+        "/home/marcus/catkin_ws/src/tcc_marcus_albano/tcc_tello/include/**",
+        "/home/marcus/catkin_ws/src/unique_identifier/unique_id/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

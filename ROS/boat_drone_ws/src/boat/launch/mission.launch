@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Iniciar rosbridge_server -->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+
+    <!-- remote_control_joy.launch -->
+    <include file="$(find boat)/launch/remote_control_joy.launch" />
+
+    <!-- position_m2m_node.py -->
+    <node pkg="boat" type="position_m2m_node.py" name="position_m2m_node" output="screen" />
+
+    <!-- control_m2m_node.py -->
+    <node pkg="boat" type="control_m2m_node.py" name="control_m2m_node" output="screen" />
+
+</launch>

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="face_tracking" pkg="tello_pkg" type="face_tracking.py" output="screen" />
+    <node name="send_email" pkg="tello_pkg" type="send_email.py" output="screen" />
+</launch>

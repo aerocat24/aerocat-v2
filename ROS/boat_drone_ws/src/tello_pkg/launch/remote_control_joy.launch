@@ -1,0 +1,13 @@
+<launch>
+
+    <!-- Controle do drone Tello - js1 -->
+    <node pkg="joy" type="joy_node" name="joy_tello_node" output="screen">
+        <param name="dev" value="/dev/input/js1"/>
+        <remap from="joy" to="/tello/joy"/>
+    </node>
+
+    <node pkg="tello_pkg" type="remote_control_joy_node.py" name="remote_control_tello" output="screen">
+        <remap from="joy" to="/tello/joy"/>
+    </node>
+
+</launch>
