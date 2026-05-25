@@ -149,14 +149,3 @@ All electronics should be installed inside the central module of the vessel.
 7. Ensure proper insulation and protection against humidity inside the module.
 
 ---
-
-# Repository contents
-
-| Folder/File | Description |
-| --- | --- |
-| `schematic/` | Electronic schematic files |
-| `pcb/` | PCB layout and manufacturing files |
-| `images/` | PCB and assembly images |
-| `firmware/` | ESP32 firmware and source code |
-| `bom/` | Bill of materials |
-| `README.md` | Electronics documentation |
