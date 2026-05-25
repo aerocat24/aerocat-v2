@@ -11,9 +11,9 @@ scientific research purposes.
 The Aerocat V2 was developed by:
 
 - [accaciofsantos](https://github.com/accaciofsantos)
-- [joaomarcers](https://github.com/joaomarcers)
+- [joaomarcelors](https://github.com/joaomarcelors)
 - [Vitaum-not](https://github.com/Vitaum-not)
-- [vibsschettino](https://github.com/vibsschettino)
+- [vbschettino](https://github.com/vbschettino)
 
 ## Publications
 
