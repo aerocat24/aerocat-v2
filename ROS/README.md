@@ -9,6 +9,115 @@ The framework enables autonomous navigation, real-time telemetry exchange,
 remote operation, and cooperative missions such as UAV inspection and landing on
 the moving ASV platform.
 
+## ASV Quick start
+
+### 1. Clone the repository
+
+Clone the project to your machine:
+
+```bash
+git clone https://github.com/aerocat24/aerocat-v2.git
+```
+
+### 2. Flash the ESP32 firmware
+
+The ESP32 firmware was developed using the PlatformIO plugin for VS Code. Open
+VS Code, import the project located in the `boat_esp32` folder, build it, and
+flash the firmware to your ESP32.
+
+### 3. Build the ROS workspace
+
+The project was developed using ROS Noetic. Go to the workspace:
+
+```bash
+cd aerocat-v2/ROS/boat_drone_ws
+```
+
+Build the workspace:
+
+```bash
+catkin build
+```
+
+### 4. Test the boat communication
+
+With the ESP32 powered on and connected to the Wi-Fi network, start
+`rosbridge`:
+
+```bash
+roslaunch rosbridge_server rosbridge_websocket.launch
+```
+
+In two other terminals, check whether the boat topics are being received:
+
+```bash
+rostopic echo /boat/compass
+```
+
+```bash
+rostopic echo /boat/gps
+```
+
+If no data appears in the topics, check that:
+
+- The computer and the ESP32 are connected to the same Wi-Fi network.
+- The GPS module has signal. This is usually indicated by a blinking red light.
+
+### 5. Check the joystick mapping
+
+The joystick button mapping only needs to be checked once. To connect the
+Bluetooth joystick to ROS, run:
+
+```bash
+roslaunch boat remote_control_joy.launch
+```
+
+In another terminal, monitor the joystick messages:
+
+```bash
+rostopic echo /boat/joy
+```
+
+Compare the received mapping with the one defined in
+`remote_control_joy_node.py`. Then check whether the commands below are working
+correctly:
+
+| Control | Action |
+| --- | --- |
+| Left analog stick up | Sends PWM to the right motor |
+| Right analog stick up | Sends PWM to the left motor |
+| `L1` | Decreases the maximum power |
+| `R1` | Increases the maximum power |
+| `select` | Toggles between manual and autonomous mode |
+
+When moving each analog stick, check that the corresponding motor is activated.
+
+### 6. Start the position node
+
+Start the boat position node:
+
+```bash
+rosrun boat position_node.py
+```
+
+Before starting autonomous navigation, update the latitude and longitude
+variables in the code with the desired destination.
+
+### 7. Start the control node
+
+Then start the boat control node:
+
+```bash
+rosrun boat control_node.py
+```
+
+For safety, the boat does not start moving automatically. Press the `select`
+button on the joystick to switch to autonomous mode. In this mode, the boat will
+navigate to the GPS coordinate defined in the position node.
+
+If the behavior is not as expected, press `select` again. The boat will return
+to manual mode and stop autonomous navigation.
+
 ## Communication overview
 
 The system architecture is divided into three main groups of nodes:
